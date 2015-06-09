@@ -1,103 +1,39 @@
 'use strict';
 
-module.exports = function (grunt) {
+var grunt = require('grunt');
+var fabs = require('fabs');
+var path = require('path');
+var lodash = require('lodash');
 
-  var pkg = require('./package.json');
+module.exports = function () {
 
   grunt.loadNpmTasks('grunt-contrib-clean');
-  grunt.loadNpmTasks('grunt-contrib-jshint');
   grunt.loadNpmTasks('grunt-contrib-copy');
-  grunt.loadNpmTasks('grunt-contrib-uglify');
-  grunt.loadNpmTasks('grunt-contrib-concat');
-  grunt.loadNpmTasks('grunt-bump');
-  grunt.loadNpmTasks('grunt-conventional-changelog');
 
-  var bowerrc = grunt.file.exists('./.bowerrc') ? grunt.file.readJSON('./.bowerrc') : { 'json': 'bower.json' };
+  var configFolder = path.resolve('./build-config');
+  var fabsConfig = fabs.getGruntConfig(configFolder);
 
-  var bumpFiles = [ 'package.json', '../w11k-highcharts-bower/package.json' ];
-  if (grunt.file.exists(bowerrc.json)) {
-    bumpFiles.push(bowerrc.json);
-  }
-
-  grunt.initConfig({
-    pkg: pkg,
-    meta: {
-      banner:
-        '/**\n' +
-          ' * <%= pkg.name %> - v<%= pkg.version %> - <%= grunt.template.today("yyyy-mm-dd") %>\n' +
-          ' * <%= pkg.homepage %>\n' +
-          ' *\n' +
-          ' * Copyright (c) <%= grunt.template.today("yyyy") %> <%= pkg.author.name %>\n' +
-          ' */\n'
-    },
-
+  var customConfig = {
     clean: {
-      dist: ['dist/*', 'temp/*']
-    },
-    jshint: {
-      src: {
-        options: {
-          jshintrc: '.jshintrc'
-        },
-        files: [{
-          expand: true,
-          cwd: 'src',
-          src: '**.js'
-        }]
-      }
+      release: ['./index.html', '*/*', '!node_modules/*', '!vendor/*',
+      '!src/*', '!build-output/*', '!build-config/*']
     },
     copy: {
       release: {
-        files: [
-          {
-            expand: true,
-            cwd: 'dist/',
-            src: '*',
-            dest: '../w11k-highcharts-bower/dist/'
-          },
-          {
-            src: 'bower.json',
-            dest: '../w11k-highcharts-bower/'
-          }
-        ]
-      }
-    },
-    concat: {
-      code: {
-        options: {
-          banner: '<%= meta.banner %>'
-        },
-        src: 'src/w11k-highcharts.js',
-        dest: 'dist/w11k-highcharts.js'
-      }
-    },
-    uglify: {
-      options: {
-        banner: '<%= meta.banner %>'
-      },
-      code: {
         files: [{
-          'dist/w11k-highcharts.min.js': 'src/w11k-highcharts.js'
+          expand: true,
+          cwd: 'build-output/compiled',
+          src: ['**'],
+          dest: './'
         }]
       }
-    },
-    bump: {
-      options: {
-        files: bumpFiles,
-        commit: true,
-        commitMessage: 'chore(project): bump version to %VERSION%',
-        commitFiles: ['-a'],
-        createTag: false,
-        push: false
-      }
     }
-  });
+  };
 
 
-  grunt.registerTask('default', ['build']);
 
-  grunt.registerTask('build', ['clean', 'jshint', 'concat', 'uglify']);
+  var config = lodash.merge({}, fabsConfig, customConfig);
+  grunt.initConfig(config);
 
-  grunt.registerTask('release', ['build', 'copy:release']);
-
+  grunt.registerTask('release', ['dist', 'clean:release', 'copy:release']);
 };

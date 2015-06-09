@@ -1,8 +1,9 @@
+
 'use strict';
 
-angular.module('demo', ['w11k-highcharts']);
+angular.module('app', ['w11k-highcharts']);
 
-angular.module('demo').controller('TestCtrl', function ($scope) {
+angular.module('app').controller('TestCtrl', function ($scope) {
 
   var chart = {
     config: {

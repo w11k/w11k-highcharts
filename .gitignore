@@ -1,6 +1,7 @@
 .idea
 .DS_Store
 
-bower_components/
+build-output/
+vendor/
 node_modules/
 dist/
