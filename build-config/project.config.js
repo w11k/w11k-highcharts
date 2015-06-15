@@ -6,15 +6,11 @@ module.exports = {
     less: {
       enabled: false
     },
-    bless: {
+    sass: {
       enabled: false
     },
-    spec: {
-      runInPrepare: false
-    },
-    e2e: {
-      runInDev: false,
-      runInDist: false
+    bless: {
+      enabled: false
     },
     server: {
       runInDist: false
@@ -23,14 +19,14 @@ module.exports = {
 
   app: {
     files: {
+      root: 'src',
       templates2js: [ ],
-      translations: [ ],
       translations2js: [ ]
     }
   },
 
   vendor: {
-    files: {
+    files: {  
       js: [
         'jquery/dist/jquery.js',
         'angular/angular.js',

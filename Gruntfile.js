@@ -8,12 +8,13 @@ var lodash = require('lodash');
 module.exports = function () {
 
   grunt.loadNpmTasks('grunt-contrib-clean');
-  grunt.loadNpmTasks('grunt-contrib-copy');
 
   var configFolder = path.resolve('./build-config');
-  var fabsConfig = fabs.getGruntConfig(configFolder);
+  var fabsConfig = fabs.createConfig(configFolder);
+  var fabsGruntConfig = fabsConfig.getGruntConfig();
+  var fabsBuildConfig = fabsConfig.getBuildConfig();
 
-  var customConfig = {
+  var additionalConfig = {
     clean: {
       release: ['./index.html', '*/*', '!node_modules/*', '!vendor/*',
       '!src/*', '!build-output/*', '!build-config/*']
@@ -32,8 +33,9 @@ module.exports = function () {
 
 
 
-  var config = lodash.merge({}, fabsConfig, customConfig);
-  grunt.initConfig(config);
+  var gruntConfig = lodash.merge({}, fabsGruntConfig, additionalConfig);
 
   grunt.registerTask('release', ['dist', 'clean:release', 'copy:release']);
+  grunt.initConfig(gruntConfig);
+
 };
