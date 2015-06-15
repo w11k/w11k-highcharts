@@ -12,6 +12,7 @@ See Project Website at http://w11k.github.com/w11k-highcharts
 
 * Install via Bower (w11k-highcharts) or download manually from our release repository (https://github.com/w11k/w11k-highcharts-bower)
 * Include scripts into your application (w11k-highcharts and dependencies):
+  * jQuery - because Highcharts relies on it
   * AngularJS
   * Highcharts or Highstock
   * Highcharts Additions (if you want to use e.g. a bubble chart)
@@ -35,7 +36,6 @@ w11k-highcharts-data takes an Array of data points, who populate the `series` ob
 ## Roadmap
 
 see milestones and issues at https://github.com/w11k/w11k-highcharts/issues
-
 
 ## License
 
