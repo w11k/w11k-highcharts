@@ -9,7 +9,7 @@ angular.module('w11k-highcharts', []);
  * @description
  * Directive to display a Highcharts chart
  */
-angular.module('w11k-highcharts').directive('w11kHighcharts', function ($q, $window) {
+angular.module('w11k-highcharts').directive('w11kHighcharts', ['$q', '$window', function ($q, $window) {
 
   return {
     template: '<div></div>',
@@ -102,4 +102,4 @@ angular.module('w11k-highcharts').directive('w11kHighcharts', function ($q, $win
 
   };
 
-});
+}]);
