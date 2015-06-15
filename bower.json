@@ -1,6 +1,6 @@
 {
   "name": "w11k-highcharts",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "main": [
     "dist/w11k-highcharts.js"
   ],
